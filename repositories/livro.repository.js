@@ -133,6 +133,18 @@ async function deleteAvaliacao(livroId, index) {
 	}
 }
 
+async function getLivroInfo(livroId) {
+	try {
+		const mongoose = await connect();
+		const LivroInfo = mongoose.model("LivroInfo", LivroInfoSchema);
+		return await LivroInfo.findOne({
+			livroId: livroId,
+		}).exec();
+	} catch (error) {
+		throw error;
+	}
+}
+
 export default {
 	insertLivro,
 	updateLivro,
@@ -145,4 +157,5 @@ export default {
 	deleteLivroInfo,
 	insertAvaliacao,
 	deleteAvaliacao,
+	getLivroInfo,
 };
