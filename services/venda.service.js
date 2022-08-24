@@ -5,9 +5,15 @@ async function insertVenda(venda) {
 	const livro = await LivroRepository.getLivro(venda.livroId);
 
 	if (livro) {
-		venda.valor = livro.valor;
+		if (livro.estoque > 0) {
+			venda.valor = livro.valor;
+			venda.data = new Date();
+			livro.estoque--;
+			await LivroRepository.updateLivro(livro);
+			return await VendaRepository(venda);
+		}
 
-		return await VendaRepository(venda);
+		throw new Error("There is no book in the inventory");
 	}
 
 	throw new Error("Book not found");
