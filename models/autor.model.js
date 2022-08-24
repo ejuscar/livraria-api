@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize/types";
+import { DataTypes } from "sequelize";
 import db from "../repositories/db.js";
 
 const Autor = db.define(

@@ -1,7 +1,7 @@
-import { Schema } from "mongoose";
-import AvaliacaoSchema from "./avaliacao.schema";
+import mongoose from "mongoose";
+import AvaliacaoSchema from "./avaliacao.schema.js";
 
-const LivroInfo = new Schema(
+const LivroInfo = new mongoose.Schema(
 	{
 		livroId: Number,
 		descricao: String,
