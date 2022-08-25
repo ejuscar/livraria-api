@@ -9,8 +9,8 @@ async function insertVenda(venda) {
 			venda.valor = livro.valor;
 			venda.data = new Date();
 			livro.estoque--;
-			await LivroRepository.updateLivro(livro);
-			return await VendaRepository(venda);
+			await LivroRepository.updateLivro(livro.toJSON());
+			return await VendaRepository.insertVenda(venda);
 		}
 
 		throw new Error("There is no book in the inventory");

@@ -62,11 +62,13 @@ async function deleteCliente(req, res, next) {
 async function getClientes(req, res, next) {
 	try {
 		const clientes = (await ClienteService.getClientes()).map((cliente) => {
-			cliente.clienteId,
-				cliente.nome,
-				cliente.email,
-				cliente.telefone,
-				cliente.endereco;
+			return {
+				clienteId: cliente.clienteId,
+				nome: cliente.nome,
+				email: cliente.email,
+				telefone: cliente.telefone,
+				endereco: cliente.endereco,
+			};
 		});
 
 		res.send({

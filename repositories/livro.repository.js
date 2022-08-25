@@ -13,11 +13,17 @@ async function insertLivro(livro) {
 
 async function updateLivro(livro) {
 	try {
-		await Livro.update(livro, {
-			where: {
-				livroId: livro.livroId,
+		await Livro.update(
+			{
+				valor: livro.valor,
+				estoque: livro.estoque,
 			},
-		});
+			{
+				where: {
+					livroId: livro.livroId,
+				},
+			}
+		);
 
 		return await getLivro(livro.livroId);
 	} catch (error) {
@@ -95,7 +101,7 @@ async function deleteLivroInfo(livroId) {
 	try {
 		const mongoose = await connect();
 		const LivroInfo = mongoose.model("LivroInfo", LivroInfoSchema);
-		await LivroInfo.deleteOne({ livroId: livroId });
+		await LivroInfo.deleteOne({ livroId: livroId }).exec();
 	} catch (error) {
 		throw error;
 	}

@@ -12,7 +12,9 @@ async function insertVenda(venda) {
 
 async function getVenda(id) {
 	try {
-		return await Venda.findByPk(id);
+		return await Venda.findByPk(id, {
+			include: [{ model: Cliente }, { model: Livro }],
+		});
 	} catch (error) {
 		throw error;
 	}

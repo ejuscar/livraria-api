@@ -36,7 +36,7 @@ async function deleteCliente(id) {
 
 async function getClientes() {
 	try {
-		return await Cliente.findall();
+		return await Cliente.findAll();
 	} catch (error) {
 		throw error;
 	}

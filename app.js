@@ -22,7 +22,7 @@ app.use((error, req, res, next) => {
 	logger.error(`${req.method} ${req.baseUrl} - ${error}`);
 	res.status(400).send({
 		success: false,
-		message: "An internal error occurred while processing de request",
+		message: `${error.message}`,
 		data: null,
 	});
 });
