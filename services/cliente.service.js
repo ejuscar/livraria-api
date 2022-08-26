@@ -34,10 +34,15 @@ async function getCliente(id) {
 	return await ClienteRepository.getCliente(id);
 }
 
+async function getClienteByAuth(username, password) {
+	return await ClienteRepository.getClienteByAuth(username, password);
+}
+
 export default {
 	insertCliente,
 	updateCliente,
 	deleteCliente,
 	getClientes,
 	getCliente,
+	getClienteByAuth,
 };

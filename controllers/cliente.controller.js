@@ -25,17 +25,26 @@ async function updateCliente(req, res, next) {
 		const cliente = req.body;
 
 		//prettier-ignore
-		if (!cliente || !cliente.clienteId|| !cliente.nome || !cliente.email 
-            || !cliente.senha || !cliente.telefone || !cliente.endereco)
-            throw new Error("The fields clienteId, nome, email, senha, telefone and endereco are required");
+		if (UserAuthenticated.isAdmin || 
+			(UserAuthenticated.isCliente && (parseInt(cliente.clienteId) === parseInt(UserAuthenticated.userId))))
+		{
+			//prettier-ignore
+			if (!cliente || !cliente.clienteId|| !cliente.nome || !cliente.email 
+				|| !cliente.senha || !cliente.telefone || !cliente.endereco)
+				throw new Error("The fields clienteId, nome, email, senha, telefone and endereco are required");
 
-		const clienteUpdated = await ClienteService.updateCliente(cliente);
+			const clienteUpdated = await ClienteService.updateCliente(cliente);
 
-		res.send({
-			success: true,
-			message: "Cliente updated successfully",
-			data: clienteUpdated,
-		});
+			res.send({
+				success: true,
+				message: "Cliente updated successfully",
+				data: clienteUpdated,
+			});
+		}
+
+		else {
+			res.status(401).send("Role not allowed");
+		}
 	} catch (error) {
 		next(error);
 	}

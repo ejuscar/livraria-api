@@ -50,10 +50,24 @@ async function getCliente(id) {
 	}
 }
 
+async function getClienteByAuth(username, password) {
+	try {
+		return await Cliente.findOne({
+			where: {
+				email: username,
+				senha: password,
+			},
+		});
+	} catch (error) {
+		throw error;
+	}
+}
+
 export default {
 	insertCliente,
 	updateCliente,
 	deleteCliente,
 	getClientes,
 	getCliente,
+	getClienteByAuth,
 };

@@ -2,7 +2,6 @@ import { Router } from "express";
 import AutorController from "../controllers/autor.controller.js";
 
 const router = Router();
-
 router.post("/", AutorController.insertAutor);
 router.put("/", AutorController.updateAutor);
 router.delete("/:id", AutorController.deleteAutor);

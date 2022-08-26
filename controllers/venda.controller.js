@@ -4,16 +4,27 @@ async function insertVenda(req, res, next) {
 	try {
 		const venda = req.body;
 
-		if (!venda || !venda.clienteId || !venda.livroId)
-			throw new Error("The fields clienteId and livroId are required");
+		//prettier-ignore
+		if (UserAuthenticated.isAdmin ||
+			(UserAuthenticated.isCliente && parseInt(venda.clienteId) === parseInt(UserAuthenticated.userId))) {
 
-		const vendaCreated = await VendaService.insertVenda(venda);
+			if (!venda || !venda.clienteId || !venda.livroId)
+				throw new Error(
+					"The fields clienteId and livroId are required"
+				);
 
-		res.send({
-			success: true,
-			message: "Sale created successfully",
-			data: vendaCreated,
-		});
+			const vendaCreated = await VendaService.insertVenda(venda);
+
+			res.send({
+				success: true,
+				message: "Sale created successfully",
+				data: vendaCreated,
+			});
+		} 
+		
+		else {
+			res.status(401).send("Role not allowed");
+		}
 	} catch (error) {
 		next(error);
 	}
@@ -41,11 +52,20 @@ async function getVendas(req, res, next) {
 		const livroId = req.query.livroId;
 		const autorId = req.query.autorId;
 
-		res.send({
-			success: true,
-			message: "Sales returned succesfully",
-			data: await VendaService.getVendas(clienteId, livroId, autorId),
-		});
+		const isAllowed =
+			UserAuthenticated.isCliente &&
+			clienteId &&
+			parseInt(clienteId) === parseInt(UserAuthenticated.userId);
+
+		if (UserAuthenticated.isAdmin || isAllowed) {
+			res.send({
+				success: true,
+				message: "Sales returned succesfully",
+				data: await VendaService.getVendas(clienteId, livroId, autorId),
+			});
+		} else {
+			res.status(401).send("Role not allowed");
+		}
 	} catch (error) {
 		next(error);
 	}
