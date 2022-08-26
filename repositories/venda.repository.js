@@ -71,6 +71,18 @@ async function getVendasByAutor(autorId) {
 	}
 }
 
+async function deleteVenda(id) {
+	try {
+		await Venda.destroy({
+			where: {
+				vendaId: id,
+			},
+		});
+	} catch (error) {
+		throw error;
+	}
+}
+
 export default {
 	insertVenda,
 	getVenda,
@@ -78,4 +90,5 @@ export default {
 	getVendasByCliente,
 	getVendasByLivro,
 	getVendasByAutor,
+	deleteVenda,
 };

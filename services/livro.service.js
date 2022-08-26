@@ -31,7 +31,11 @@ async function getLivro(id) {
 	const livroInfo = await LivroRepository.getLivroInfo(id);
 
 	return {
-		livro,
+		livroId: livro.livroId,
+		nome: livro.nome,
+		autorId: livro.autorId,
+		estoque: livro.estoque,
+		valor: livro.valor,
 		livroInfo: livroInfo,
 	};
 }
